@@ -10,14 +10,14 @@ import android.widget.TextView;
 
 import java.util.EnumMap;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity  {
 
-   public static final int NUM_BULLETS=6;
-   private Button[] buttons;
-   private Button bulletButton;
+
+
    private FrameLayout bangLayout;
    private TextView textBang;
-   private boolean gameOver;
+   private Barrel barrel;
+
 
 
 
@@ -28,9 +28,18 @@ public class MainActivity extends AppCompatActivity {
         bangLayout = findViewById(R.id.bangLayout);
         textBang = findViewById(R.id.textViewBang);
 
-        createButtons();
-        insertBulletIntotheBarrel();
+
+
         assignActionToReloadButton();
+        barrel = findViewById(R.id.barrelLayout);
+        barrel.setFireListener(new Barrel.FireListener() {
+            @Override
+            public void fire(boolean bang) {
+                if (bang){
+                    bang();
+                }
+            }
+        });
     }
 
     private void assignActionToReloadButton() {
@@ -39,9 +48,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                reenableButtons();
+
                 resetBackground();
-                insertBulletIntotheBarrel();
+                barrel.reset();
             }
 
 
@@ -50,49 +59,16 @@ public class MainActivity extends AppCompatActivity {
                 textBang.setVisibility(View.INVISIBLE);
             }
 
-            private void reenableButtons() {
 
-                for (Button b: buttons){
-                    b.setEnabled(true);
-                }
 
-            }
         });
-    }
-
-
-
-
-    private void createButtons() {
-        buttons = new Button[NUM_BULLETS];
-        LinearLayout barrel = findViewById(R.id.layoutBarrel);
-        for (int i = 0; i<buttons.length; i ++){
-            buttons[i] = new Button(this, null, android.R.attr.buttonStyleSmall);
-            buttons[i].setText(""+(i+1));
-            barrel.addView(buttons[i]);
-            buttons[i].setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    if (gameOver) return;
-                    v.setEnabled(false);
-                    if (v==bulletButton){
-                        bang();
-                    }
-                }
-            });
-        }
     }
 
     private void bang() {
       bangLayout.setBackgroundColor(getResources().getColor(R.color.colorBang));
         textBang.setVisibility(View.VISIBLE);
-        gameOver=true;
+
     }
 
-    private void insertBulletIntotheBarrel() {
-        int bulletIndex=(int)(Math.random()* NUM_BULLETS);
-         bulletButton= buttons[bulletIndex];
-        gameOver=false;
-    }
+
 }

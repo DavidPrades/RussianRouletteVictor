@@ -7,16 +7,13 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <LinearLayout
-        android:id="@+id/layoutBarrel"
+    <org.ieselcaminas.pmdm.russianroulette.Barrel
+        android:id="@+id/barrelLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="horizontal">
+        android:gravity="center">
 
-    </LinearLayout>
-
-
+    </org.ieselcaminas.pmdm.russianroulette.Barrel>
     <Button
         android:id="@+id/buttonReload"
         android:layout_width="match_parent"
